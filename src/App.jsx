@@ -1,7 +1,7 @@
-import React from 'react';
+import React,{Suspense, lazy} from 'react';
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
-import { Dashboard } from './components/Dashboard';
-import { Landing } from './components/Landing';
+const  Dashboard =  lazy(()=>import('./components/Dashboard'))
+const  Landing =  lazy(()=>import('./components/Landing'));
 
 const App = () => {
 
@@ -9,14 +9,21 @@ const App = () => {
   //whatever use useNavigate need to be inside the browser router
   // const navigate=useNavigate();
 
+
+  /**
+   * suspense api , asynchronous component fectching ,asynchronous 
+   * data fetching 
+   * */
+
+
   return (
     <div>
 
       <BrowserRouter>
         <AppBar />
         <Routes>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/" element={<Landing />} />
+          <Route path="/dashboard" element={<Suspense fallback={"...loading"}><Dashboard /></Suspense>} />
+          <Route path="/" element={<Suspense fallback={"...loading"}><Landing /></Suspense>}  />
         </Routes>
       </BrowserRouter>
 
