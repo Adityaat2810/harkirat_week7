@@ -1,38 +1,44 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import { CountContext } from './Context';
 
 const App = () => {
 
   const [count,setCount] = useState(0);
 
-  /**
-   * If want to call buttons in count then we need to pass
-   * setCount also as a prop {count do not really use it 
-   * just passed down to button }  => becomes slightly 
-   * unmanageable to pass down the props .
-   * 
-   * propdrilling => drilling down the prop .
-  */
+  // wrap anything that want to use the teleported value 
+  // inside the teleporter provider
   return (
     <div>
       
-      <Count count={count} setCount={setCount}/>
+      {/** from where you want to teleport */}
+      <CountContext.Provider value={count}>
+        <Count count={count} setCount={setCount}/>  
+      </CountContext.Provider>
 
     </div>
   )
 }
 
-function Count({count,setCount}){
+function Count({setCount}){
   return <div>
-    <b>Count is </b>{count}
-    <div>
-    <Buttons count={count} setCount={setCount}/>
+    
+    <CountRender count />
+    <Buttons setCount={setCount}/>
     </div>
 
+}
+
+function CountRender(){
+  const count = useContext(CountContext)
+  return <div>
+    <b>count is</b> {count}
   </div>
 }
 
-function Buttons({count,setCount}){
-  return<>
+function Buttons({setCount}){
+  const count = useContext(CountContext)
+
+  return<div>
     <button onClick={()=>{
       setCount(count+1)
 
@@ -45,7 +51,7 @@ function Buttons({count,setCount}){
     }}>
       Decrease count
     </button>
-  </>
+  </div>
 
 }
 
