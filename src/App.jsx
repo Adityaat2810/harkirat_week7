@@ -6,6 +6,7 @@ import { Landing } from './components/Landing';
 const App = () => {
 
   // right way to navigate without hard reloadouter only
+  //whatever use useNavigate need to be inside the browser router
   // const navigate=useNavigate();
 
   return (
