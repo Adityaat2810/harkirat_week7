@@ -11,6 +11,18 @@ const App = () => {
       Hi this is the topbar
     </div>
 
+    <div>
+      <button onClick={()=>{
+        window.location.href='/dashboard'
+      }}>Dashboard</button>
+
+      
+      <button onClick={()=>[
+        window.location.href='/'
+
+      ]}>Landing</button>
+    </div>
+
 
     <BrowserRouter>
       <Routes>
