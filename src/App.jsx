@@ -1,43 +1,45 @@
-import React, { useContext, useState } from 'react'
-import { CountContext } from './Context';
+import { useRecoilState, useRecoilValue, RecoilRoot } from 'recoil';
+import { countAtom } from './store/atoms/count';
 
 const App = () => {
 
-  const [count,setCount] = useState(0);
+  // app do not have nay state varuable 
 
-  // wrap anything that want to use the teleported value 
-  // inside the teleporter provider
   return (
     <div>
-      
-      {/** from where you want to teleport */}
-      <CountContext.Provider value={count}>
-        <Count count={count} setCount={setCount}/>  
-      </CountContext.Provider>
-
+      <RecoilRoot>
+        <Count/>
+      </RecoilRoot> 
     </div>
   )
 }
 
-function Count({setCount}){
+function Count(){
+
+  console.log('count rerender');
+
   return <div>
     
-    <CountRender count />
-    <Buttons setCount={setCount}/>
+    <CountRender  />
+    <Buttons/>
     </div>
 
 }
 
 function CountRender(){
-  const count = useContext(CountContext)
+ 
+  const count  = useRecoilValue(countAtom);
+  //  const [count,setCount]  = useRecoilState(countAtom);
+
+  
   return <div>
     <b>count is</b> {count}
   </div>
 }
 
-function Buttons({setCount}){
-  const count = useContext(CountContext)
+function Buttons(){
 
+    const [count,setCount]  = useRecoilState(countAtom);
   return<div>
     <button onClick={()=>{
       setCount(count+1)
@@ -47,7 +49,7 @@ function Buttons({setCount}){
     </button>
 
     <button onClick={()=>{
-      setCount(count-1)
+       setCount(count-1) 
     }}>
       Decrease count
     </button>
